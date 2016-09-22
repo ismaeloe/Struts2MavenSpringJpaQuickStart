@@ -1,0 +1,320 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+   
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>quickstart</groupId>
+  <artifactId>quickstart</artifactId>
+  <!-- 	v1  No Funciona
+  		v11 Si Compila con Hiberanate y con JPA Provider
+  -->
+  
+  <version>0.11</version>
+ 
+  <packaging>war</packaging>
+  <!--15.9.5 = Se Transforma Nombre, Paterno y Materno a Mayusculas  -->
+  <!--15.9.7 = Se Agrega Filtro de Estudio.AMBOS o DF o FORANEO en Consulta de estudios
+  					Se Muestran Ordenedas la Empresas en Alta de Usuarios
+  					Se Valida al Cancelar Pase, que Si es Foraneo y el Usuario No es Admin, ENTONCES NO PROCEDE -->
+  <!--15.9.8 = Se Cambia de manera Temporal que SOLO se Muestres Estudios Foraneos en PMForaneo y No Estudio.AMBOS
+  					Se Valida en Cliente CboFacturarA se Capture
+  					Se Valida en Server que listEstudios != [null,empty o get(0).empty] -->
+  <!--15.9.9 = Se cambia el Telefono de Cancelacion de PM Foraneos
+  					Se Agrega Properties de Versiones en POM-->
+
+  <name>Struts2 Spring JPA</name>
+  <url>http://maven.apache.org</url>
+ 
+<properties>	
+	<!--SPRING -->
+		<!-- ok Prodv7 Jul,2014 version>4.0.6.RELEASE</version -->
+		<!-- ok Prodv14Mar,2015<version>4.1.6.RELEASE</version> -->
+		<!-- ok Dec,2015 <version>4.2.4.RELEASE</version -->
+		<!-- Feb,2016 error 4.2.5-->
+		<!-- Jun,2016 -->
+		<!-- Prod Ok version>4.3.0.RELEASE</version  -->
+	<org.springframework.version>4.3.0.RELEASE</org.springframework.version>
+	
+	<!--SPRING Boot 4.0.3.RELEASE -->
+	<!-- May 2016 1.3.5 -->
+    	<!-- ok Prodv7 Apr,2014  1.0.0.RELEASE</version-->
+		<!-- ok Prodv14 Mar,2015 1.2.3.RELEASE</version>-->
+		<!-- 1.10 Dic, 2015 		 1.3.1.RELEASE</version>-->
+		<!-- ok Prodv15 Feb,2016 1.3.3.RELEASE</version>-->
+		<!-- ok Prodv15 May,2016 1.3.4.RELEASE</version>-->
+		<!-- Prodv15.5 May,2016   1.3.5.RELEASE<version -->
+		<!-- Test15.7 Jul,2016    1.4.0.RELEASE<version -->
+		<!-- Prod Ok version>1.3.5.RELEASE</version-->
+		<!-- Prod    Jul 2016 version>1.3.7.RELEASE</version -->	
+		<org.springframework.boot.version>1.3.7.RELEASE</org.springframework.boot.version>
+	
+	<!--STRUTS2 Prod Jul/2016  -->
+		<!-- ok ProdV7> version>2.3.16.3</version -->
+		<!-- ok ProdV14>version>2.3.20</version -->
+		<!-- Sep,2015   version>2.3.24.1</version-->
+		<!-- Apr/2016 okversion>2.3.28.1 -->
+		<!-- ok Prod Jun/2016 v15.5 v2.5.1-->
+		<!-- ok Prod Jul/2016 2.5.2 -->
+		<org.apache.struts.version>2.5.2</org.apache.struts.version>
+	
+	<!-- HIBERNAT -->
+		<!-- ok Prodv7 Jul,2014>version>4.3.6.Final</version -->
+	   <!-- ok Prodv14Apr,2015<version>4.3.9.Final</version -->
+	   <!-- Dec,2015 <version>5.0.6.Final</version -->
+		<!-- ok Aug,2015 4.3.11.Final-->
+	<org.hibernate.version>4.3.11.Final</org.hibernate.version>
+</properties>
+ 
+  <dependencies>
+
+	<dependency> 
+   	<groupId>javax</groupId>   
+    	<artifactId>javaee-api</artifactId>   
+    	<version>7.0</version>
+    	<scope>provided</scope> 
+	</dependency>
+	
+	<dependency>
+		<groupId>mysql</groupId>
+		<artifactId>mysql-connector-java</artifactId>
+		<!-- ok Prodv7  May,2014>version>5.1.31</version-->
+		<!-- ok ProdV14 Mar,2015<version>5.1.35</version> -->
+		<!-- Dec,2015 -->
+	   <version>5.1.38</version>
+		<scope>provided</scope>
+	</dependency>
+	   
+	<!--  dependency>
+		<groupId>log4j</groupId>
+		<artifactId>log4j</artifactId>
+		<version>1.2.17</version>
+	</dependency -->
+
+	<dependency>
+    <groupId>org.apache.logging.log4j</groupId>
+    <artifactId>log4j-core</artifactId>
+    <!--Jun/2016 ok Prodv15.5 <version>2.6.1</version -->
+    <!--Jul/2016 Test v15.7   <version>2.6.2</version -->
+     <version>2.6.2</version>
+	</dependency>
+  
+  <dependency>
+    <groupId>org.apache.logging.log4j</groupId>
+    <artifactId>log4j-web</artifactId>
+    <!--Jun/2016 ok Prodv15.5 <version>2.6.1</version -->
+    <!--Jul/2016 Test v15.7   <version>2.6.2</version -->
+    <version>2.6.2</version>
+    <scope>runtime</scope>
+  </dependency>
+
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-context</artifactId>
+		<version>${org.springframework.version}</version>
+	</dependency>
+
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-web</artifactId>
+		<version>${org.springframework.version}</version>
+		<!-- scope>SI SE REQUIERE provided</scope -->
+	</dependency>
+
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-orm</artifactId>
+		<version>${org.springframework.version}</version>
+	</dependency>
+ 
+ 	<!-- No se Requiere  
+	 <dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-webmvc</artifactId>
+		<version>${org.springframework.version}</version>
+		<scope>runtime</scope>
+	</dependency>
+	-->
+	
+	<dependency>
+         <groupId>org.eclipse.persistence</groupId>
+         <artifactId>eclipselink</artifactId>
+         <!-- ori Mzo/2015 version>2.5.2</version -->
+         <!-- Dec/2015 -->
+         <version>2.6.2</version>
+         <scope>provided</scope>
+	</dependency>
+	<dependency>
+         <groupId>org.eclipse.persistence</groupId>
+         <artifactId>org.eclipse.persistence.jpa.modelgen.processor</artifactId>
+         <version>2.6.2</version>
+         <scope>provided</scope>
+	</dependency>
+             
+	<dependency>
+	   	<groupId>org.hibernate</groupId>
+	   	<artifactId>hibernate-core</artifactId>
+		<version>${org.hibernate.version}</version>		
+		<!--  scope>provided</scope -->
+	</dependency>
+	
+	<!--SOLO SE AGREGA  dependency>
+
+	<dependency>
+	    <groupId>org.hibernate</groupId>
+	    <artifactId>hibernate-entitymanager</artifactId>
+		<version>${org.hibernate.version}</version>
+	</dependency>
+
+   	<groupId>org.hibernate</groupId>
+   	<artifactId>hibernate-validator</artifactId>
+	   <!- ok Prodv14 Oct,2014> <version>5.1.3.Final</version> ->
+	   <!- Sep,2015 <version>5.2.2.Final</version ->
+	   <!- ok Prodv15 Feb 2016 ->
+	   <version>5.2.4.Final</version>
+	</dependency
+	-->
+
+	<dependency>
+		<groupId>org.apache.struts</groupId>
+		<artifactId>struts2-core</artifactId>
+		<version>${org.apache.struts.version}</version>
+	</dependency>
+
+	<dependency>
+		<groupId>org.apache.struts</groupId>
+		<artifactId>struts2-json-plugin</artifactId>
+		<!-- ok ProdV7>version>2.3.16.3</version -->
+		<!-- ok ProdV14><version>2.3.20</version> -->
+		<!-- Sep,2015   version>2.3.24.1</version-->
+		<!-- Apr/2016 okversion>2.3.28.1 -->
+		<!-- Jun/2016 okProdv15.5  v2.5.1-->
+		<!-- Prod Jul/2016  -->		
+		<version>${org.apache.struts.version}</version>
+	</dependency>
+
+	<dependency>
+		<groupId>org.apache.struts</groupId>
+		<artifactId>struts2-spring-plugin</artifactId>
+		<!-- ok ProdV7>version>2.3.16.3</version -->
+		<!-- ok ProdV14><version>2.3.20</version> -->
+		<!-- Apr/2016 okversion>2.3.28.1 -->
+		<!-- Jun/2016 okProdv15.5  v2.5.1-->
+		<!-- Prod Jul/2016  -->	
+		<version>${org.apache.struts.version}</version>
+	</dependency>
+	<dependency>
+		<groupId>com.jgeppert.struts2.jquery</groupId>
+		<artifactId>struts2-jquery-plugin</artifactId>
+		<version>3.7.1</version>
+	</dependency>
+
+	<dependency>
+		<groupId>com.jgeppert.struts2.jquery</groupId>
+		<artifactId>struts2-jquery-grid-plugin</artifactId>
+		<version>3.7.1</version>
+	</dependency>
+
+	<dependency>
+        <groupId>com.amashchenko.struts2.pdfstream</groupId>
+        <artifactId>struts2-pdfstream-plugin</artifactId>
+        <version>2.0.0</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <!--ok Prodv7 Nov,2012>version>4.11</version-->
+      <!-- 4.12 Dec,2014 -->
+      <version>4.12</version>
+      <scope>test</scope>
+    </dependency>
+
+	<dependency>
+		<groupId>commons-codec</groupId>
+		<artifactId>commons-codec</artifactId>
+		<!-- ok Prodv7 Dec,2013>version>1.9</version-->
+		<!-- 1.10 Nov,2014 -->
+		<version>1.10</version>
+	</dependency>
+
+   <dependency>
+    	<groupId>org.springframework.boot</groupId>
+    	<artifactId>spring-boot-starter-data-jpa</artifactId>
+		<version>${org.springframework.boot.version}</version>
+		<scope>provided</scope>
+    	<exclusions>
+    		<exclusion>
+    			<artifactId>tomcat-jdbc</artifactId>
+    			<groupId>org.apache.tomcat</groupId>
+    		</exclusion>
+    		<exclusion>
+    			<artifactId>tomcat-juli</artifactId>
+    			<groupId>org.apache.tomcat</groupId>
+    		</exclusion>
+    	</exclusions>
+   </dependency>
+
+	<dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-web</artifactId>
+    	<!-- ok Prodv7 Apr,2014 version>1.0.0.RELEASE</version-->
+		<!-- ok Prodv14 Mar,2015<version>1.2.3.RELEASE</version>-->
+		<!-- 1.10 Dic, 2015 		<version>1.3.1.RELEASE</version>-->
+		<!-- ok Prodv15 Feb,2016 1.3.3.RELEASE</version>-->
+		<!-- ok Prodv15 May,2016 1.3.4.RELEASE</version>-->
+		<!-- Prodv15 May,2016<version -->
+		<!-- version>1.3.5.RELEASE</version  -->
+		<version>${org.springframework.boot.version}</version>		
+		<scope>provided</scope>
+		<exclusions>
+			<exclusion>
+				<artifactId>spring-boot-starter-tomcat</artifactId>
+				<groupId>org.springframework.boot</groupId>
+			</exclusion>
+		</exclusions>
+	</dependency>
+
+	<dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-test</artifactId>
+    	<!-- ok Prodv7 Apr,2014  version>1.0.0.RELEASE</version-->
+		<!-- ok Prodv14 Mar,2015<version>1.2.3.RELEASE</version-->
+		<!-- Dic, 2015 		<version>1.3.1.RELEASE</version-->
+		<!-- 1.10 Dic, 2015 		<version>1.3.1.RELEASE</version>-->
+		<!-- ok Prodv15 Feb,2016 1.3.3.RELEASE</version>-->
+		<!-- ok Prodv15 May,2016 1.3.4.RELEASE</version>-->
+		<!-- Prodv15 May,2016<version -->
+		<!-- version>1.3.5.RELEASE</version  -->
+		<version>${org.springframework.boot.version}</version>
+    	<scope>provided</scope>
+	</dependency>	
+ 
+ 	<dependency>
+		<groupId>org.apache.poi</groupId>
+		<artifactId>poi</artifactId>
+		<!-- Sep, 2015 <version>3.13</version-->
+		<!-- Marc,2016 ok Prodv15  -->
+		<version>3.14</version>
+	</dependency>
+
+  </dependencies>
+
+ 	<build>
+    <finalName>quickstartjpa</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.1</version>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+					<showDeprecation>true</showDeprecation>
+					<showWarnings>true</showWarnings>
+					<executable>${env.JAVA_HOME}/bin/javac</executable>
+					<fork>true</fork>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>

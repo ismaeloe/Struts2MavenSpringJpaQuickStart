@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- (<Configuration status="trace">),
+     log4j2 debug INFO WILL BE PRINTED to the CONSOLE to help you troubleshoot any configuration issues -->
+
+<Configuration status="trace">
+
+  <Appenders>
+    <Console name="Console" target="SYSTEM_OUT">
+    	<!-- <PatternLayout pattern="%d{HH:mm:ss} [%t] %-5level %logger{36} - %M %msg%n" -->
+      <PatternLayout pattern="%d %-5level - %c{2}.%M %msg%n"/>
+    </Console>
+
+    <File name="FILE" fileName="/tmp/jpa.log" append="true">
+      <PatternLayout>
+        <Pattern>%d %p %c{1.} %m%n</Pattern>
+      </PatternLayout>
+    </File>
+    
+    <RollingFile name="ROLLING" fileName="/tmp/jpaweb.log" filePattern="/tmp/jpaweb-%d{yyyy-MM-dd}-%i.log">
+      <PatternLayout pattern="%d %p %c{2}.%M: %m%n"/>
+        <Policies>
+          <TimeBasedTriggeringPolicy />
+          <SizeBasedTriggeringPolicy size="10 MB"/>
+        </Policies>
+      <DefaultRolloverStrategy max="20"/>
+    </RollingFile>
+  </Appenders>
+
+  <Loggers>
+    <Logger name="mx.com" level="trace" additivity="false">
+      <AppenderRef ref="Console"/>
+      <AppenderRef ref="ROLLING"/>
+    </Logger>
+
+    <Root level="error">
+      <AppenderRef ref="Console"/>
+		<AppenderRef ref="PMLog"/>
+    </Root>
+  </Loggers>
+</Configuration>

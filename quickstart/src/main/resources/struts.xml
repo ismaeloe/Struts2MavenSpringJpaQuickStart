@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<constant name="struts.devMode" value="false" />
+	<constant name="struts.custom.i18n.resources" value="global" />
+	<constant name="struts.i18n.reload" value="false" />
+	<constant name="struts.configuration.xml.reload" value="false" />
+	<constant name="struts.ognl.logMissingProperties" value="true" />
+	<constant name="struts.el.throwExceptionOnFailure" value="false" />
+
+	<constant name="struts.objectFactory.spring.autoWire" value="type"/>
+ 
+	<constant name="struts.freemarker.templatesCache" value="true" />
+	<constant name="struts.ui.theme" value="xhtml" />
+<!--constant name="struts.ui.templateDir" value="template" / -->
+	<constant name="struts.ui.templateSuffix" value="ftl" />
+
+   <!-- >constant name="struts.objectFactory" value="spring" / -->
+
+	<package name="person" extends="struts-default">
+
+        <action name="list" class="quickstart.action.PersonAction" method="execute" >
+            <result>pages/list.jsp</result>
+            <result name="input">pages/list.jsp</result>
+        </action>
+
+        <action name="remove" class="quickstart.action.PersonAction" method="remove">
+            <result>pages/list.jsp</result>
+            <result name="input">pages/list.jsp</result>
+        </action>
+
+        <action name="save" class="quickstart.action.PersonAction" method="save">
+            <result>pages/list.jsp</result>
+            <result name="input">pages/list.jsp</result>
+        </action>
+    </package>
+
+</struts>
